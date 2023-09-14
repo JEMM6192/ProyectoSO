@@ -4,18 +4,22 @@ import Stack from './stack.js';
 const Programas = new Stack();
 
 
-Programas.push( { id: 1, nombre: 'Adobe Photoshop', Memoria: 45 });
-Programas.push( { id: 2, nombre: 'Microsoft Word', Memoria: 30 });
-Programas.push( { id: 3, nombre: 'Microsoft Powerpoint', Memoria: 25 });
-Programas.push( { id: 4, nombre: 'Adobe Premiere', Memoria: 50 });
-Programas.push( { id: 5, nombre: 'Visual Studio', Memoria: 55 });
-Programas.push( { id: 6, nombre: 'Adobe InDesign', Memoria: 35 });
-Programas.push( { id: 7, nombre: 'Microsoft Store', Memoria: 40 });
-Programas.push( { id: 8, nombre: 'Adobe Audition', Memoria: 30 });
-
-
-
-console.log(Programas.peek());
+//crea un pushe los siguientes elementos  1	2	3	3	5	1	2	2	6	2	1	5	7	6	3
+Programas.push(1);
+Programas.push(2);
+Programas.push(3);
+Programas.push(3);
+Programas.push(5);
+Programas.push(1);
+Programas.push(2);
+Programas.push(2);
+Programas.push(6);
+Programas.push(2);
+Programas.push(1);
+Programas.push(5);
+Programas.push(7);
+Programas.push(6);
+Programas.push(3);
 
 
 export default Programas;

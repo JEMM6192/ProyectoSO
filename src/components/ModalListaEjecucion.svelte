@@ -7,6 +7,7 @@
     
     let items = Programas.items;
     let SortItems = [...items]; 
+    console.log(Programas.items); 
   
   function handleSort(e) {
     SortItems = e.detail.items;
@@ -24,9 +25,9 @@
 
 <Modal title="Lista de Ejecucion" bind:open={showModalEjecucion} autoclose>
 <section use:dndzone={{ items: SortItems }} on:consider={handleSort} on:finalize={handleSort}>
-    {#each SortItems as item (item.id)}
+    {#each SortItems as item (item)} 
       <div>
-        {item.nombre}
+        {item}
       </div>
     {/each}
   </section>  
