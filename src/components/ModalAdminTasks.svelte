@@ -1,6 +1,7 @@
 <!-- App.svelte -->
 <script>
     import { calcularPaginacionFIFO } from "../algoritmos/fifo.js";
+    import { calcularPaginacionLRU } from "../algoritmos/LRU.js";
     import Programas from "../algoritmos/programas.js";
     import { Button, Label, Modal, Select, Input, P } from "flowbite-svelte";
     import {
@@ -12,6 +13,7 @@
         TableHeadCell,
         TableSearch,
     } from "flowbite-svelte";
+    import App from "../App.svelte";
     export let showModalAdminTasks = false;
 
     let referencia = Programas.items;
@@ -21,8 +23,26 @@
     let fallos = 0;
     let fallosString = "";
 
+    let AlgoritmoSeleccioando = "optimo"; // Default algorithm selection
+
+    function EjecutarAlgoritmo() {
+        if (AlgoritmoSeleccioando === "fifo") {
+            fifo();
+        } else if (AlgoritmoSeleccioando === "NRU") {
+            NRU();
+        }
+    }
+
     function fifo() {
         const resultado = calcularPaginacionFIFO(referencia, marcos);
+        marcospagina = resultado.marcosPagina;
+        tabla = resultado.tabla;
+        fallos = resultado.fallos;
+        fallosString = resultado.fallosString;
+    }
+
+    function NRU() {
+        const resultado = calcularPaginacionLRU(referencia, marcos);
         marcospagina = resultado.marcosPagina;
         tabla = resultado.tabla;
         fallos = resultado.fallos;
@@ -39,12 +59,12 @@
         <Label for="default-input" class="block mb-2"
             >Algoritmo de paginacion</Label
         >
-        <select name="select">
-            <option value="value1">Optimo</option>
-            <option value="value2">No usandas reciente,mente</option>
-            <option value="value3">Fifo</option>
+        <select name="select" bind:value={AlgoritmoSeleccioando}>
+            <option value="Optimo">Optimo</option>
+            <option value="NRU">NRU</option>
+            <option value="fifo">Fifo</option>
         </select>
-        <Button on:click={fifo}>Ejecutar Algoritmo</Button>
+        <Button on:click={EjecutarAlgoritmo}>Ejecutar Algoritmo</Button>
     </div>
 
     <Table>
@@ -74,9 +94,9 @@
         </TableBody>
     </Table>
 
-    <h5>Fallos de página: {fallos}</h5>
-    <h5>Fallos: {fallos / referencia.length}</h5>
-    <p>
+    <h3>Fallos de página: {fallos}</h3>
+    <h3>Fallos: {fallos / referencia.length}</h3>
+    <h3>
         Rendimiento: {((referencia.length - fallos) / referencia.length) * 100}%
-    </p>
+    </h3>
 </Modal>
