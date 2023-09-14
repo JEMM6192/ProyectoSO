@@ -30,9 +30,9 @@ export function calcularPaginacionFIFO(referencia, marcos) {
         }
 
         if (fallo) {
-            fallosString += "x\t";
+            fallosString += "❌\t";
         } else {
-            fallosString += "-\t";
+            fallosString += "➖\t";
         }
 
         tabla.push(fila);
