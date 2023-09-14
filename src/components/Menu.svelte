@@ -3,9 +3,12 @@
   import ModalMMU from './ModalMMU.svelte';
   import ModalListaEjecucion from './ModalListaEjecucion.svelte';
   import ModalConfiguracionSO from './ModalConfiguracionSO.svelte';
+  import ModalAdminTasks from './ModalAdminTasks.svelte';
   let showModalMMU = false;
   let showModalEjecucion = false;
   let showModalConfiguracionSO = false;
+  let showModalAdminTasks = false;
+
 </script>
 
 <div>
@@ -39,12 +42,16 @@
 <ModalConfiguracionSO bind:showModalConfiguracionSO={showModalConfiguracionSO } />
 {/if}
 
-<Button color="alternative" size="lg" >
+<Button on:click={()=>(showModalAdminTasks= true)} color="alternative" size="lg" >
   <div class="flex flex-col items-center ">
     <img src="./src/assets/Administrador.png" alt="Administrador" width="100" height="100"/>
     <p>Admin Tasks</p>
   </div>
 </Button>
+{#if showModalAdminTasks}
+<ModalAdminTasks bind:showModalAdminTasks={showModalAdminTasks } />
+{/if}
+
 </div>
 
   
