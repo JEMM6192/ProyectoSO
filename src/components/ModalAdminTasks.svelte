@@ -35,15 +35,26 @@
     bind:open={showModalAdminTasks}
     size="xl"
 >
-    <button on:click={fifo}>Ejecutar Algoritmo</button>
+    <div class="mb-6">
+        <Label for="default-input" class="block mb-2"
+            >Algoritmo de paginacion</Label
+        >
+        <select name="select">
+            <option value="value1">Optimo</option>
+            <option value="value2">No usandas reciente,mente</option>
+            <option value="value3">Fifo</option>
+        </select>
+        <button on:click={fifo} color="alternative">Ejecutar Algoritmo</button>
+    </div>
+
     <Table>
-        <TableHead>
-            <TableBodyRow>
-                <TableHeadCell>REFERENCIA</TableHeadCell>
-                {#each referencia as ref}
-                    <TableHeadCell>{ref}</TableHeadCell>
-                {/each}
-            </TableBodyRow>
+        <TableHead
+            class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400"
+        >
+            <TableHeadCell>REFERENCIA</TableHeadCell>
+            {#each referencia as ref}
+                <TableHeadCell>{ref}</TableHeadCell>
+            {/each}
         </TableHead>
         <TableBody>
             {#each marcospagina as marco, i}
@@ -63,7 +74,8 @@
         </TableBody>
     </Table>
 
-    <p>Fallos de página: {fallos}</p>
+    <h5>Fallos de página: {fallos}</h5>
+    <h5>Fallos: {fallos / referencia.length}</h5>
     <p>
         Rendimiento: {((referencia.length - fallos) / referencia.length) * 100}%
     </p>
