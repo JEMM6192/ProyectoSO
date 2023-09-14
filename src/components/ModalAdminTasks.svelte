@@ -44,7 +44,7 @@
             <option value="value2">No usandas reciente,mente</option>
             <option value="value3">Fifo</option>
         </select>
-        <button on:click={fifo} color="alternative">Ejecutar Algoritmo</button>
+        <Button on:click={fifo}>Ejecutar Algoritmo</Button>
     </div>
 
     <Table>
