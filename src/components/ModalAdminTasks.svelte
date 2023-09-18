@@ -5,7 +5,7 @@
     import { calcularPaginacionOptimo } from "../algoritmos/optimo.js";
     import { calcularPaginacionSegundaOportunidad } from "../algoritmos/SegundaOportunidad.js";
     import { calcularPaginacionReloj } from "../algoritmos/reloj.js";
-    import { variableStore } from "../store/marcos.js";
+    import { Marcos } from "../store/marcos.js";
     import Programas from "../algoritmos/programas.js";
     import { Button, Label, Modal, Select, Input } from "flowbite-svelte";
     import { Progressbar } from "flowbite-svelte";
@@ -22,17 +22,13 @@
     import App from "../App.svelte";
     export let showModalAdminTasks = false;
     let referencia = Programas.items;
-    let marcos;
+    let marcos = $Marcos;
 
     let marcospagina = [];
     let tabla = [];
     let fallos = 0;
     let fallosString = "";
-    let AlgoritmoSeleccioando = ""; // Default algorithm selection
-
-    const suscribirse = variableStore.subscribe((value) => {
-        marcos = value; // Actualiza la variable local con el valor del store
-    });
+    let AlgoritmoSeleccioando = "";
 
     function EjecutarAlgoritmo() {
         if (AlgoritmoSeleccioando === "fifo") {
