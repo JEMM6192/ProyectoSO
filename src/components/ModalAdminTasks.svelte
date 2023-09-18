@@ -2,8 +2,14 @@
 <script>
     import { calcularPaginacionFIFO } from "../algoritmos/fifo.js";
     import { calcularPaginacionLRU } from "../algoritmos/LRU.js";
+    import { calcularPaginacionOptimo } from "../algoritmos/optimo.js";
+    import { calcularPaginacionSegundaOportunidad } from "../algoritmos/SegundaOportunidad.js";
+    import { calcularPaginacionReloj } from "../algoritmos/reloj.js";
+    import { variableStore } from "../store/marcos.js";
     import Programas from "../algoritmos/programas.js";
-    import { Button, Label, Modal, Select, Input, P } from "flowbite-svelte";
+    import { Button, Label, Modal, Select, Input } from "flowbite-svelte";
+    import { Progressbar } from "flowbite-svelte";
+
     import {
         Table,
         TableBody,
@@ -15,21 +21,33 @@
     } from "flowbite-svelte";
     import App from "../App.svelte";
     export let showModalAdminTasks = false;
-
     let referencia = Programas.items;
-    let marcos = 4;
+    let marcos;
+
     let marcospagina = [];
     let tabla = [];
     let fallos = 0;
     let fallosString = "";
+    let AlgoritmoSeleccioando = ""; // Default algorithm selection
 
-    let AlgoritmoSeleccioando = "optimo"; // Default algorithm selection
+    const suscribirse = variableStore.subscribe((value) => {
+        marcos = value; // Actualiza la variable local con el valor del store
+    });
 
     function EjecutarAlgoritmo() {
         if (AlgoritmoSeleccioando === "fifo") {
             fifo();
         } else if (AlgoritmoSeleccioando === "NRU") {
             NRU();
+        }
+        if (AlgoritmoSeleccioando === "Optimo") {
+            optimo();
+        }
+        if (AlgoritmoSeleccioando === "segundaOportunidad") {
+            segundaOportunidad();
+        }
+        if (AlgoritmoSeleccioando === "reloj") {
+            reloj();
         }
     }
 
@@ -43,6 +61,33 @@
 
     function NRU() {
         const resultado = calcularPaginacionLRU(referencia, marcos);
+        marcospagina = resultado.marcosPagina;
+        tabla = resultado.tabla;
+        fallos = resultado.fallos;
+        fallosString = resultado.fallosString;
+    }
+
+    function optimo() {
+        const resultado = calcularPaginacionOptimo(referencia, marcos);
+        marcospagina = resultado.marcosPagina;
+        tabla = resultado.tabla;
+        fallos = resultado.fallos;
+        fallosString = resultado.fallosString;
+    }
+
+    function segundaOportunidad() {
+        const resultado = calcularPaginacionSegundaOportunidad(
+            referencia,
+            marcos
+        );
+        marcospagina = resultado.marcosPagina;
+        tabla = resultado.tabla;
+        fallos = resultado.fallos;
+        fallosString = resultado.fallosString;
+    }
+
+    function reloj() {
+        const resultado = calcularPaginacionReloj(referencia, marcos);
         marcospagina = resultado.marcosPagina;
         tabla = resultado.tabla;
         fallos = resultado.fallos;
@@ -63,6 +108,8 @@
             <option value="Optimo">Optimo</option>
             <option value="NRU">NRU</option>
             <option value="fifo">Fifo</option>
+            <option value="segundaOportunidad">Segunda Oportunidad</option>
+            <option value="reloj">Reloj</option>
         </select>
         <Button on:click={EjecutarAlgoritmo}>Ejecutar Algoritmo</Button>
     </div>
@@ -87,7 +134,7 @@
             {/each}
             <TableBodyRow>
                 <TableHeadCell>FALLOS</TableHeadCell>
-                {#each fallosString.split("\t") as fallo}
+                {#each fallosString.trimEnd().split("\t") as fallo}
                     <TableBodyCell>{fallo}</TableBodyCell>
                 {/each}
             </TableBodyRow>
@@ -96,7 +143,13 @@
 
     <h3>Fallos de página: {fallos}</h3>
     <h3>Fallos: {fallos / referencia.length}</h3>
-    <h3>
-        Rendimiento: {((referencia.length - fallos) / referencia.length) * 100}%
-    </h3>
+    <p>Rendimiento :</p>
+    <div class="flex justify-center">
+        <Progressbar
+            progress=" {((referencia.length - fallos) / referencia.length) *
+                100}"
+            size="h-4 w-9/12"
+            labelInside
+        />
+    </div>
 </Modal>
