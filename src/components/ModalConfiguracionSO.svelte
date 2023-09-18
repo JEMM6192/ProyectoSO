@@ -1,20 +1,15 @@
 <script>
   import { Button, Modal, Label, Input } from "flowbite-svelte";
-  import { variableStore } from "../store/marcos.js";
+  import { Marcos } from "../store/marcos.js";
   export let showModalConfiguracionSO = false;
-  let nuevovalor;
+  let nuevovalor = 4;
 
-  // Suscríbete al store para obtener el valor actual
-  const suscribirse = variableStore.subscribe((value) => {
-    nuevovalor = value; // Actualiza la variable local con el valor del store
-  });
-
-  function guardarNuevoValor() {
-    variableStore.set(nuevovalor); // Actualiza el store con el valor de la variable local
+  function cancelar() {
     showModalConfiguracionSO = false;
   }
 
-  function cancelar() {
+  function cambiarValor() {
+    Marcos.set(Number(nuevovalor)); // Convierte el valor a número y cambia la tienda
     showModalConfiguracionSO = false;
   }
 </script>
@@ -22,7 +17,7 @@
 <Modal title="Configuración SO" bind:open={showModalConfiguracionSO}>
   <div class="mb-6">
     <Label for="default-input" class="block mb-2"
-      >Cantidad de Marcos de páginas a utilizar (por defecto :$variableStore)</Label
+      >Cantidad de Marcos a utilizar (por defecto : 4)</Label
     >
     <Input
       type="number"
@@ -33,7 +28,7 @@
   </div>
 
   <svelte:fragment slot="footer">
-    <Button on:click={guardarNuevoValor}>Guardar</Button>
+    <Button on:click={cambiarValor}>Guardar</Button>
     <Button on:click={cancelar} color="alternative">Cancelar</Button>
   </svelte:fragment>
 </Modal>
