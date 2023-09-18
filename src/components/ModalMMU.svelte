@@ -16,45 +16,58 @@
 
   //funcion para push al array de la lista de programas
   function AgregarPrograma() {
-    //push al array de la lista de programas
     Programas.push(inputValue);
-    //limpiar el input
     inputValue = "";
-    console.log(Programas);
-    //no cerra el modal
-    defaultModal = false;
+    Referencia = Programas.items;
+  }
+
+  function EliminarUltimo() {
+    Programas.pop();
+    Referencia = Programas.items;
+  }
+
+  function vaciarPila() {
+    while (!Programas.isEmpty()) {
+      Programas.pop();
+    }
+    Referencia = Programas.items;
+  }
+
+  function handleKeyPress(event) {
+    if (event.key === "Enter") {
+      AgregarPrograma();
+    }
   }
 </script>
 
-<Modal title="MMU" bind:open={defaultModal}>
-  <div class="mb-6">
-    <div class="mb-6">
-      <Label for="default-input" class="block mb-2">Default input</Label>
+<Modal title="MMU" bind:open={defaultModal} size="xl">
+  <div
+    class="mb-6 flex flex-col items-center justify-center sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div class="mb-4 flex items-center">
+      <Label for="default-input" class="block text-center"
+        >Agregar Referencia</Label
+      >
       <Input
+        on:keydown={handleKeyPress}
         id="default-input"
-        placeholder="Default input"
-        type="text"
+        placeholder="Referencia"
+        type="number"
         bind:value={inputValue}
       />
     </div>
-    <div class="mb-6">
-      <Button on:click={AgregarPrograma} pill>Agregar</Button>
+
+    <div class="mb-3 flex items-center space-x-2">
+      <!-- Utilizamos space-x-2 para agregar un espacio horizontal entre los botones -->
+      <Button on:click={vaciarPila} color="yellow">vaciar</Button>
+      <Button on:click={EliminarUltimo} color="red">Eliminar Ultimo</Button>
     </div>
-
-    <Table>
-      <TableHead>
-        <TableHeadCell># Referencia</TableHeadCell>
-      </TableHead>
-
-      <TableBody class="divide-y">
-        {#each Referencia as item}
-          <TableBodyRow>
-            <TableBodyCell>{item}</TableBodyCell>
-          </TableBodyRow>
-        {/each}
-      </TableBody>
-    </Table>
   </div>
+
+  {#each Referencia as item}
+    <Button color="light" disable="true">{item}</Button>
+  {/each}
+
   <svelte:fragment slot="footer">
     <Button on:click={() => alert('Handle "success"')}>Guardar</Button>
     <Button color="alternative">Cancelar</Button>
