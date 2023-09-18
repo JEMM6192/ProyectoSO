@@ -1,4 +1,3 @@
-
 export function calcularPaginacionSegundaOportunidad(referencia, marcos) {
     let marcosPagina = new Array(marcos).fill(-1);
     let fallos = 0;
@@ -26,19 +25,44 @@ export function calcularPaginacionSegundaOportunidad(referencia, marcos) {
                 segundaOportunidad[indiceDisponible] = 0; // Marca la página con segunda oportunidad
             } else {// Si todos los marcos están llenos, realizar un reemplazo usando el algoritmo de segunda oportunidad
                 let paginaReemplazar = -1;
-                let encontrado = false;
 
-                while (!encontrado) { // Busca la página con segunda oportunidad
-                    for (let j = 0; j < marcos; j++) {// Busca la página con segunda oportunidad en los marcos de página y la reemplaza
-                        if (segundaOportunidad[j] === 0) {
-                            paginaReemplazar = j;
-                            encontrado = true;
+                // Verifica si estamos en la última referencia
+                if (i === referencia.length - 1) {
+                    // Aplicar FIFO para reemplazar una página
+                    let indiceMasAntiguo = 0;
+                    let referenciaMasAntigua = referencia.length;
+
+                    for (let j = 0; j < marcos; j++) {
+                        let paginaActual = marcosPagina[j];
+                        let ultimaAparicion = referencia.lastIndexOf(paginaActual, i);
+
+                        if (ultimaAparicion === -1) {
+                            indiceMasAntiguo = j;
                             break;
-                        } else {
-                            segundaOportunidad[j] = 0;
+                        } else if (ultimaAparicion < referenciaMasAntigua) {
+                            referenciaMasAntigua = ultimaAparicion;
+                            indiceMasAntiguo = j;
+                        }
+                    }
+
+                    paginaReemplazar = indiceMasAntiguo;
+                } else {
+                    // Algoritmo de segunda oportunidad
+                    let encontrado = false;
+
+                    while (!encontrado) { // Busca la página con segunda oportunidad
+                        for (let j = 0; j < marcos; j++) {// Busca la página con segunda oportunidad en los marcos de página y la reemplaza
+                            if (segundaOportunidad[j] === 0) {
+                                paginaReemplazar = j;
+                                encontrado = true;
+                                break;
+                            } else {
+                                segundaOportunidad[j] = 0;
+                            }
                         }
                     }
                 }
+
                 marcosPagina[paginaReemplazar] = paginaReferenciada;
                 segundaOportunidad[paginaReemplazar] = 0;
             }
