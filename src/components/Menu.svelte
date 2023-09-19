@@ -11,7 +11,12 @@
 <div>
   <Button on:click={() => (showModalMMU = true)} color="alternative" size="lg">
     <div class="flex flex-col items-center">
-      <img src="./src/assets/lista.png" alt="lista" width="100" height="100" />
+      <img
+        src="https://i.ibb.co/wWhcRvV/lista.png"
+        alt="lista"
+        width="100"
+        height="100"
+      />
       <p>MMU</p>
     </div>
   </Button>
@@ -26,7 +31,7 @@
   >
     <div class="flex flex-col items-center">
       <img
-        src="./src/assets/sistema-operativo.png"
+        src="https://i.ibb.co/jgpqv1W/sistema-operativo.png"
         alt="lista"
         width="100"
         height="100"
@@ -45,7 +50,7 @@
   >
     <div class="flex flex-col items-center">
       <img
-        src="./src/assets/Administrador.png"
+        src="https://i.ibb.co/NSsKZrg/Administrador.png"
         alt="Administrador"
         width="100"
         height="100"
