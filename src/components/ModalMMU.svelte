@@ -38,6 +38,9 @@
       AgregarPrograma();
     }
   }
+  function cerrarmodal() {
+    defaultModal = false;
+  }
 </script>
 
 <Modal title="MMU" bind:open={defaultModal} size="xl">
@@ -69,7 +72,6 @@
   {/each}
 
   <svelte:fragment slot="footer">
-    <Button on:click={() => alert('Handle "success"')}>Guardar</Button>
-    <Button color="alternative">Cancelar</Button>
+    <Button on:click={cerrarmodal} color="alternative">Cancelar</Button>
   </svelte:fragment>
 </Modal>
